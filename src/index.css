@@ -1,0 +1,151 @@
+/* ------------------------------------------ common setup for css design -->START ------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  font-family: "Roboto", sans-serif; /* Google font link is in html */
+  background-color: var(--layout-background);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  /* display: block; */
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+}
+/* ------------------------------------------ common setup for css design -->END ------------------------------------ */
+
+/* ------------------------------------------ custom colors for Dashboard-app --> START ------------------------------------ */
+:root {
+  --bg: #000;
+  --primary-text: #fff;
+  --btn-primary: #efefe4;
+  --btn-hover: #e67e6e;
+  --btn-succes: green;
+  --gradient1: linear-gradient(90deg, #628eff 0%, #8740cd 52%, #580475 100%);
+   /* --gradient1: linear-gradient(90deg, #7665ff 0%, #e065ff 100%); */
+  --gradient2: #a5a5a5;
+  --color-pink-bg: pink;
+  --color-pink-text: rgb(168, 168, 168);
+  --color-red-bg: rgb(255, 18, 58);
+  --color-red-text: rgb(122, 41, 98);
+  --color-blue-bg: pink;
+  --color-blue-text: rgb(42, 48, 134);
+  /* LOGIN PAGE */
+  --btn-login: #00b5e2;
+  --btn-login-hover: #0093b1;
+  --box-shadow-login: #595555;
+  /* SIGNOUT BUTTON*/
+  --btn-signout-hover: #313030;
+  /* THEME COLOR*/
+  /* LAYOUT BACKGROUND */
+  --layout-background: #f0f4ef;
+  /* SIDEBAR */
+  --sidebar-bg: #a5a5a5;
+  --sidebar-menu-bg1: #101820;
+  --sidebar-menu-bg2: transparent;
+  --siebar-menu-text: #222222;
+  /* DonutChart3 */
+  --donut-chart-color1_t1: #8740cd;
+  --donut-chart-color2_t1: #628eff;
+  --donut-chart-color1_t2: #344966;
+  --donut-chart-color2_t2: #b8b8b8;
+  /* StackedGraph_1 */
+  --stackedGraph1-color1_t1: rgba(255, 171, 189, 0.75);
+  --stackedGraph1-color2_t1:  rgba(255, 12, 216, 0.39);
+  --stackedGraph1-color3_t1: #8740cd;
+  /* --stackedGraph1-color3_t1:linear-gradient(circle, #60F2F2 0%, #10ADD0 100%); */
+  --stackedGraph1-color1_t2: #4084b3;
+  --stackedGraph1-color2_t2: #b4cded;
+  --stackedGraph1-color3_t2: #919191;
+  /* StackedGraph_2 */
+  --stackedGraph2-color1_t1: rgba(98, 142, 255, 0.8);
+  --stackedGraph2-color2_t1: rgba(135, 64, 205, 0.6);
+  --stackedGraph2-color3_t1: rgba(88, 4, 117, 0.7);
+  --stackedGraph2-color4_t1: rgba(141, 170, 244, 0.85);
+  --stackedGraph2-color5_t1: #0037d6;
+  /* --stackedGraph2-color3_t1:linear-gradient(circle, #60F2F2 0%, #10ADD0 100%); */
+  --stackedGraph2-color1_t2: rgba(255, 85, 85, 0.8);
+  --stackedGraph2-color2_t2: rgba(85, 255, 85, 0.8);
+  --stackedGraph2-color3_t2: rgba(85, 85, 255, 0.8);
+  --stackedGraph2-color4_t2: rgba(170, 170, 170, 0.8);
+  --stackedGraph2-color5_t2: rgba(0, 0, 139, 0.8);  
+  /* ----------------------------------------------- All 6 chart color --------------------------------------------------- */
+    /* TransitLeadTimeChart */
+  --transitLeadTime-color1_t1:#3B82F6;
+  --transitLeadTime-color1_t2:#344966;
+  /* ClearanceLeadTimeChart */
+  
+
+}
+/* ------------------------------------------ custom colors for Dashboard-app --> END ------------------------------------ */
+
+.table-row-even {
+  background-color: #e9ebf8 !important; /* Data row color */
+}
+
+.table-row-odd {
+  background-color: #ffffff !important; /* Default row color */
+}
+
+.ant-table-thead > tr > th {
+  background-color: #d9d9d9 !important; /* Column header color */
+  color: #000; /* Optional: header text color */
+}
+
+.ant-table-tbody > tr:hover > td {
+  background: #ececec !important; /* Hover effect */
+}
+
+.ant-table-cell-row:hover {
+  background: "#ececec" !important;
+}
+.ant-table-tbody > tr > td:hover {
+  background-color: #ececec !important;
+  color: #000;
+}
+:where(.css-dev-only-do-not-override-r03b94)
+  .ant-table-wrapper
+  .ant-table-cell-scrollbar {
+  box-shadow: none !important;
+}
+
+.ant-card-body {
+  padding: 0 !important;
+}
+
+.ant-tabs-nav-wrap {
+  background-color: "yellow", "";
+}
+
+/* Trackingtabel in Dashboard-- START  */
+
+:where(.css-dev-only-do-not-override-12tpao4).ant-table-wrapper td.ant-table-column-sort{
+  background: none !important;
+}
+
+/* Trackingtabel in Dashboard-- END  */

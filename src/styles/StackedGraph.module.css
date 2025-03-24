@@ -1,0 +1,21 @@
+/* Parent container where the DatePicker dropdown will be rendered */
+.stackedGraph_DatePicker .ant-picker-dropdown {
+    width: 70% !important;
+}
+
+/* Customizing the internal panel container */
+.stackedGraph_DatePicker .ant-picker-panel-container.ant-picker-month-panel-container {
+    width: 70% !important;
+    height: 40vh !important;
+}
+
+/* Customizing the DatePicker content */
+.stackedGraph_DatePicker .ant-picker-content {
+    width: 70% !important;
+    height: 32vh !important;
+}
+
+/* Customizing the DatePicker header */
+.stackedGraph_DatePicker .ant-picker-header {
+    width: 70% !important;
+}
