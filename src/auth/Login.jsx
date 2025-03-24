@@ -11,13 +11,13 @@ import { useTheme } from "../context/ThemeContext";
 //For static role based
 const users = [
   {
-    email: "SuperAdmin@albs.com",
-    password: "Superadmalbs@123",
+    email: "SuperAdmin@xyz.com",
+    password: "Superadmxyz@123",
     role:"SuperAdmin"
   },
   {
-    email: "Admin@albs.com",
-    password: "Admalbs@123",
+    email: "Admin@xyz.com",
+    password: "Admxyz@123",
     role:"Admin"
   }
 ]
