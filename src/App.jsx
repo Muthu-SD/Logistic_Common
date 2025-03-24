@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { useTheme } from "./context/ThemeContext";
+import { useTheme } from "./context/ThemeContext.jsx";
 import { ConfigProvider } from "antd";
-import AppRoutes from "./routes/AppRoutes";
+import AppRoutes from "./routes/AppRoutes.jsx";
 
 const App = () => {
   // const { theme } = useContext(ThemeContext);

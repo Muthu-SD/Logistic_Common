@@ -1,15 +1,15 @@
 import React, { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
-import ProtectedRoute from "./protected-route";
-import MainLayout from "../layouts/MainLayout";
+import ProtectedRoute from "./protected-route.jsx";
+import MainLayout from "../layouts/MainLayout.jsx";
 import useStore from "../store/UseStore";
 
 // Lazy loading components
-const Login = lazy(() => import("../auth/Login"));
-const SignUp = lazy(() => import("../auth/SignUp"));
-const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
-const SupplierClearance = lazy(() => import("../pages/SupplierClearance"));
-const ShippingStatus = lazy(() => import("../pages/ShippingStatus"));
+const Login = lazy(() => import("../auth/Login.jsx"));
+const SignUp = lazy(() => import("../auth/SignUp.jsx"));
+const Dashboard = lazy(() => import("../pages/dashboard/Dashboard.jsx"));
+const SupplierClearance = lazy(() => import("../pages/SupplierClearance.jsx"));
+const ShippingStatus = lazy(() => import("../pages/ShippingStatus.jsx"));
 
 
 
