@@ -1255,3 +1255,12 @@ const SingleBarChart = ({ chartTitle, data }) => {
 
 export default SingleBarChart;
 
+--------------------------------------------------------------------------------------------------
+vercel.json:-
+
+This tells Vercel to:
+
+-Serve index.html for all routes (/(.*))
+-Let React Router handle the routing client-side.
+--------------------------------------------------------------------------------------------------
+
