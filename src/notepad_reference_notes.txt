@@ -181,37 +181,91 @@ for css keep in external css module  use styles folder
 
 this below is my folder structure for your reference
 
+Logistic/
+|
+node_modules/
+|
+public/
+├── logo.png
 src/
 ├── assets/
+│   ├── icons 
 │   ├── login 
 │   ├── Logo.png 
 ├── auth/
 │   ├── Login.jsx
 │   ├── SignUp.jsx
 ├── components/
+│   ├── chart/ 
+│   │   ├── BarChart.js
+│   │   ├── DonutChart.js
+│   │   ├── DonutChartGradient.js
+│   │   ├── HorizontalBarChart.js
+│   │   ├── PieChart.js
+│   │   ├── PolarChart.js
+│   │   ├── StackedBarChart.js
+│   ├── chart_component/ 
+│   │   ├── ClearanceLeadTime.jsx
+│   │   ├── MaterialPieChart.jsx
+│   │   ├── ShipmentCostsChart.jsx
+│   │   ├── ShipmentsHandledChart.jsx
+│   │   ├── ShipmentStackedBarChart.jsx
+│   │   ├── ShipperChargesChart.jsx
+│   │   ├── SupplierBarChart.jsx
+│   │   ├── SupplierPieChart.jsx
+│   │   ├── TransitLeadTime.jsx
+│   ├── date-picker/ 
+│   │   ├── TimeFilter.jsx
 │   ├── Button.js
-│   ├── DonutChart.js
-│   ├── PolarChart.js
+│   ├── CommonCard.js
+│   ├── DonutChart2.js
+│   ├── DonutChart3.js
+│   ├── ImportModal.jsx
+│   ├── InfoCard.js
 │   ├── LineChart.js
+│   ├── PolarChart.js
+│   ├── StackedGraph_2.js
+│   ├── StackedGraph.js
+│   ├── StatCard.jsx
+│   ├── TrackingTable.js
 ├── context/
 │   ├── ThemeContext.jsx
 ├── layouts/
 │   ├── Header.jsx 
+│   ├── MainLayout.jsx 
 │   ├── SideBar.jsx
 ├── pages/
-│   ├── Dashboard.jsx
+│   ├── dashboard/ 
+│   │   ├── Dashboard.jsx
+│   │   ├── DashboardSidemenu.js
+│   ├── ShippingStatus.jsx
+│   ├── SupplierClearance.jsx
 ├── routes/
-│   ├── Routes.js
-│   ├── ProtectedRoute.js
+│   ├── AppRoutes.js
+│   ├── protected-route.js
 ├── store/
+│   ├── DataProvider.js
 │   ├── UseStore.js
 ├── styles/
 │   ├── auth/ 
 │   │   ├── AuthForm.module.css
-├── App.css
+│   ├── Dashboard.module.css
+│   ├── DashboardCard.module.css
+│   ├── Header.module.css
+│   ├── MainLayout.module.css
+│   ├── Sidebar.module.css
+│   ├── StackedGraph.module.css
+├── theme/
+│   ├── Theme.js
+├── utils/
+│   ├── fetchClearedData.js
 ├── App.js
 ├── index.css
 ├── index.js
+|
+package-lock.json
+|
+package.json
 
 
 DASHBOARD COLOR COMBINATION IN MY DASHBOARD:
