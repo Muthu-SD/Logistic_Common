@@ -5,7 +5,7 @@ import {  FileDoneOutlined, PieChartOutlined, } from "@ant-design/icons";
 // import { FaShippingFast } from "react-icons/fa";
 import styles from "../styles/Sidebar.module.css";
 import useStore from "../store/UseStore";
-import logo from "../assets/Logo2.png";
+import logo from "../assets/ARLogo.png";
 import { useTheme } from "../context/ThemeContext";
 import { FaShippingFast } from "react-icons/fa";
 
@@ -67,7 +67,10 @@ const Sidebar = () => {
       style={{ background: theme.token.colorBgContainer }}
     >
       <div className={styles.logoContainer}>
-        <img src={logo} alt="Logo" className={styles.logo}  style={{ filter: isThemeOne ? "invert(1)" : "invert(0)" }}  />
+        <img src={logo} alt="Logo" className={styles.logo}  
+        // style={{ filter: isThemeOne ? "invert(1)" : "invert(0)" }}  
+        // style={{ background: isThemeOne ? "white" : "white" }}  
+        />
       </div>
       <ul className={styles.navLinks}>
         {filteredNavItems.map((item) => {

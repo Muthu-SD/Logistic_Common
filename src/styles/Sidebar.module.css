@@ -18,7 +18,10 @@
 }
 
 .logo {
-  max-width: 80%;
+  width: 86%;
+  height: 90px;
+  margin: 0.5rem;
+  /* max-width: 25%; */
   /* filter: invert(1); */
 }
 .signOut {

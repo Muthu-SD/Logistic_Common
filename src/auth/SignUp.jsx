@@ -3,7 +3,7 @@ import { Form, Input, Button, message } from "antd";
 import { useNavigate, Link } from "react-router-dom";
 import useStore from "../store/UseStore"; // Import the store
 import Styles from "../styles/auth/AuthForm.module.css";
-import logo from "../assets/Logo.png"; // Import logo
+import logo from "../assets/ARLogo.png"; // Import logo
 import illustrator from "../assets/login/Illustrator.svg"; // Import illustration
 import { useTheme } from "../context/ThemeContext";
 
