@@ -1,0 +1,391 @@
+
+Interceptors let you:
+
+🔐 Automatically attach tokens to every request (no need for auth: true everywhere)
+
+🚨 Handle global errors (like 401, 500, etc.)
+
+🧹 Centralize logic so every component doesn’t repeat the same checks
+
+Api.js:-
+
+import axios from "axios";
+
+const API = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+});
+
+export const apiRequest = async (method, endpoint, data = {}, options = {}) => {
+  try {
+    const headers = {};
+
+    // Attach token if auth is enabled
+    if (options.auth) {
+      const token = localStorage.getItem("token");
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+    }
+
+    // Handle FormData or JSON
+    const isFormData = options.isFormData || data instanceof FormData;
+    if (!isFormData) {
+      headers["Content-Type"] = "application/json";
+    }
+
+    const response = await API({
+      method,
+      url: endpoint,
+      data,
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Something went wrong" };
+  }
+};
+
+
+
+
+//✅✅TOKEN using FROM ZUSTAND STORE ✅✅
+
+Api.js:-
+
+import axios from "axios";
+import useStore from "../store/UseStore";  // Import the zustand store
+
+const API = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+});
+
+export const apiRequest = async (method, endpoint, data = {}, options = {}) => {
+  try {
+    const headers = {};
+
+    // Attach token if auth is enabled
+    if (options.auth) {
+      const token = useStore.getState().token; // Get token from zustand store
+
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      } else {
+        console.error("No token found in zustand store");
+      }
+    }
+
+    // Handle FormData or JSON
+    const isFormData = options.isFormData || data instanceof FormData;
+    if (!isFormData) {
+      headers["Content-Type"] = "application/json";
+    }
+
+    const response = await API({
+      method,
+      url: endpoint,
+      data,
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Something went wrong" };
+  }
+};
+
+======================================================================================================================================================
+
+//using interceptors with a custom header to conditionally skip the token.
+//Why this is the best choice:
+1. Centralized token handling — Token management is abstracted away. No need to worry about it in each component.
+
+2. Per-request flexibility — You can skip the token for specific requests by simply passing { auth: false }.
+
+3. Cleaner code — You don’t need to handle headers or the token in every API call in your components. Just call apiRequest().
+
+4. Global error handling — Automatically handles 401 errors (expired tokens) and redirects the user if necessary.
+
+Api.js:-
+
+import axios from "axios";
+
+// Create axios instance
+const API = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+});
+
+// ==============================
+// ✅ REQUEST INTERCEPTOR
+// ==============================
+API.interceptors.request.use((config) => {
+  const skipAuth = config.headers["x-skip-auth"];
+
+  if (!skipAuth) {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  } else {
+    delete config.headers["x-skip-auth"];
+  }
+
+  return config;
+});
+
+// ==============================
+// ❌ RESPONSE INTERCEPTOR (Global Error Handler)
+// ==============================
+API.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const errRes = error.response;
+
+    if (errRes) {
+      if (errRes.status === 401) {
+        // 🔐 Token expired, force logout or redirect
+        console.warn("Unauthorized. Logging out...");
+        localStorage.removeItem("token");
+        window.location.href = "/login"; // or trigger logout via context/store
+      }
+
+      // Return normalized error
+      return Promise.reject(
+        errRes.data?.message || errRes.data?.error || "Something went wrong"
+      );
+    }
+
+    return Promise.reject("Network error");
+  }
+);
+
+// ==============================
+// ✅ REUSABLE REQUEST FUNCTION
+// ==============================
+export const apiRequest = async (
+  method,
+  endpoint,
+  data = {},
+  { customHeaders = {}, auth = true, params = {} } = {}
+) => {
+  try {
+    const headers = { ...customHeaders };
+
+    const isFormData = data instanceof FormData;
+    if (!isFormData) {
+      headers["Content-Type"] = "application/json";
+    }
+
+    // Signal interceptor to skip auth if requested
+    if (!auth) {
+      headers["x-skip-auth"] = true;
+    }
+
+    const response = await API({
+      method,
+      url: endpoint,
+      data,
+      params,
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+//ALternate way ✅✅TOKEN using FROM ZUSTAND STORE ✅✅
+
+Api.js:-
+
+import axios from "axios";
+import useStore from "../store/UseStore";
+
+// Create axios instance
+const API = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+});
+
+// ==============================
+// ✅ REQUEST INTERCEPTOR
+// ==============================
+API.interceptors.request.use((config) => {
+  const skipAuth = config.headers["x-skip-auth"];
+
+  if (!skipAuth) {
+     // Get the token from zustand store instead of localStorage
+     const token = useStore.getState().token;  // Get token from zustand store
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+  } else {
+    delete config.headers["x-skip-auth"];
+  }
+
+  return config;
+});
+
+// ==============================
+// ❌ RESPONSE INTERCEPTOR (Global Error Handler)
+// ==============================
+API.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const errRes = error.response;
+
+    if (errRes) {
+      if (errRes.status === 401) {
+        // 🔐 Token expired, force logout or redirect
+        console.warn("Unauthorized. Logging out...");
+        // Clear token from zustand store
+        useStore.getState().logout();  // Calling the logout method to clear user and token
+        window.location.href = "/login"; // or trigger logout via context/store
+      }
+
+      // Return normalized error
+      return Promise.reject(
+        errRes.data?.message || errRes.data?.error || "Something went wrong"
+      );
+    }
+
+    return Promise.reject("Network error");
+  }
+);
+
+// ==============================
+// ✅ REUSABLE REQUEST FUNCTION
+// ==============================
+export const apiRequest = async (
+  method,
+  endpoint,
+  data = {},
+  { customHeaders = {}, auth = true, params = {} } = {}
+) => {
+  try {
+    const headers = { ...customHeaders };
+
+    const isFormData = data instanceof FormData;
+    if (!isFormData) {
+      headers["Content-Type"] = "application/json";
+    }
+
+    // Signal interceptor to skip auth if requested
+    if (!auth) {
+      headers["x-skip-auth"] = true;
+    }
+
+    const response = await API({
+      method,
+      url: endpoint,
+      data,
+      params,
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+======================================================================================================================================================
+
+his below is my folder structure for vite Logistics_Dashboard frontend
+
+logistics_dashboard/
+|
+node_modules/
+|
+public/
+│   └── android-chrome-192x192.png             
+│   └── android-chrome-512x512.png    
+│   └── apple-touch-icon.png             
+│   └── favicon-16x16.png             
+│   └── favicon-32x32.png             
+│   └── favicon.ico            
+│   └── logo.png                
+│   └── site.webmanifest    
+src/
+├── assets/
+│   ├── login / 
+│   │   ├── Curve_Bottomleft.png
+│   │   ├── Curve_TopRight.png
+│   │   ├── Illustrator.svg
+│   ├── Logo.png 
+│   ├── Logo2.png 
+│   ├── Logo3.png 
+├── auth/
+│   ├── Login.jsx
+│   ├── ForgotPassword.jsx
+│   ├── OtpVerification.jsx
+├── components/
+│   ├── chart_component/ 
+│   ├── country_wise_volume_chart / 
+│   │   ├── CountryWiseVolumeChart.jsx
+│   │   ├── fetchCountryWiseVolumeData.jsx
+│   ├── customs_clearance_lead_time_chart / 
+│   │   ├── CustomsClearanceLeadTimeChart.jsx
+│   │   ├── fetchCustomsClearanceLeadTimeData.jsx
+│   ├── outstanding_overdue_table / 
+│   │   ├── OutstandingOverdueTable.jsx
+│   ├── shipment_in_pipeline_table / 
+│   │   ├── ShipmentInPipelineTable.jsx
+│   ├── shipment_under_clearance_table / 
+│   │   ├── ShipmentUnderClearanceTable.jsx
+│   ├── supplier_wise_volume_chart / 
+│   │   ├── fetchSupplierVolumeData.jsx
+│   │   ├── SupplierWiseVolumeChart.jsx
+│   ├── total_shipments_handled_chart / 
+│   │   ├── fetchTotalShipmentsHandledData.jsx
+│   │   ├── TotalShipmentsHandledChart.jsx
+│   ├── transit_lead_time_chart / 
+│   │   ├── fetchTransitLeadTimeData.jsx
+│   │   ├── TransitLeadTimeChart.jsx
+│   ├── common / 
+│   │   ├── NoDataFallback.jsx
+│   ├── marquee/ 
+│   │   ├── CurrentInfoMarquee.jsx
+│   │   ├── fetchCurrentInfo.jsx
+│   ├── ImportExcel.jsx
+│   ├── InfoCard.jsx
+├── layouts/
+│   ├── Header.jsx 
+│   ├── MainLayout.jsx
+├── pages/
+│   ├── dashboard/ 
+│   │   ├── Dashboard.jsx
+├── routes/
+│   ├── AppRoutes.jsx
+│   ├── ProtectedRoute.jsx
+├── store/
+│   ├── UseStore.js
+├── styles/
+│   ├── auth/ 
+│   │   ├── AuthForm.module.css
+│   ├── Dashboard.module.css
+│   ├── Header.module.css
+│   ├── MainLayout.module.css
+├── utils/
+│   ├── Api.js
+├── App.jsx
+├── index.css
+├── main.jsx
+|
+.env   
+|                   
+.env.example 
+|                   
+eslint.config.js   
+|                   
+index.html  
+|                      
+package-lock.json
+|
+package.json
+|
+README.md
+|
+vite.config.js
+
+======================================================================================================================================================
